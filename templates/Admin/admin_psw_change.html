@@ -1,0 +1,51 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 grid-margin">
+    <div class="d-flex justify-content-between flex-wrap">
+
+      <div class="d-flex">
+
+        <i class="mdi mdi-account text-muted hover-cursor"></i>
+        <p class="text-muted mb-0 hover-cursor">&nbsp;Admin &nbsp;/&nbsp; Change Password</p>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <form class="forms-sample">
+
+          <div class="form-group">
+            <label for="lbl">Current Password</label>
+            <input type="text" class="form-control" id="lbl" placeholder="Current Password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lbl">New Password</label>
+            <input type="text" class="form-control" id="lbl" placeholder="New Password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lbl">Confirm New Password</label>
+            <input type="text" class="form-control" id="lbl" placeholder="Confirm New Password" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary mr-2">Update New Password</button>
+          <a href="{{ url_for('appAdminAdministration.admin_profile') }}" class="btn btn-light">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

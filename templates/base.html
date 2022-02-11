@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Tab icon -->
+	<link rel="icon" type="image/png" href="static/images/logo.png" />
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css">
+
+	<!-- Fonts -->
+	<link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="static/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="static/fonts/linearicons-v1.0.0/icon-font.min.css">
+
+	<!-- Animations -->
+	<link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+
+	<!-- Hamburger - mobile view menu icon -->
+	<link rel="stylesheet" type="text/css" href="static/vendor/css-hamburgers/hamburgers.min.css">
+
+	<!-- Width height manage -->
+	<link rel="stylesheet" type="text/css" href="static/vendor/slick/slick.css">
+
+	<!-- Pop ups -->
+	<link rel="stylesheet" type="text/css" href="static/vendor/MagnificPopup/magnific-popup.css">
+
+	<!-- Custom css -->
+	<link rel="stylesheet" type="text/css" href="static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+
+	<script src="static/vendor/sweetalert/sweetalert2@11.js"></script>
+
+</head>
+
+<body class="animsition">
+
+	<!-- Header -->
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Top bar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Any questions -
+						<a class="cl7 hov-cl1 trans-04 m-r-16"
+							href="mailto:mpmsulakshana@gmail.com">mpmsulakshana@gmail.com</a>
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+
+						<a href="tel:0767950600" class="flex-c-m trans-04 p-lr-25">
+							Maleesha - 0767950600
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop">
+				<nav class="limiter-menu-desktop container">
+
+					<!-- Logo desktop -->
+					<a href="/" class="logo">
+						<img src="static/images/logo.png" alt="IMG-LOGO">
+					</a>
+
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+							<li class="active-menu">
+								<a href="/">Home</a>
+							</li>
+
+							<li>
+								<a href="/diseases">Diseases-Treatments</a>
+							</li>
+
+						</ul>
+					</div>
+
+					<div class="wrap-icon-header flex-w flex-r-m">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
+						</div>
+
+					</div>
+
+				</nav>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->
+			<div class="logo-mobile">
+				<a href="/"><img src="static/images/logo.png" alt="IMG-LOGO"></a>
+			</div>
+
+			<div class="wrap-icon-header flex-w flex-r-m">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+					<i class="zmdi zmdi-search"></i>
+				</div>
+
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Any questions -
+						<a class="cl7 hov-cl1 trans-04 m-r-16"
+							href="mailto:mpmsulakshana@gmail.com">mpmsulakshana@gmail.com</a>
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+
+						<a href="tel:0767950600" class="flex-c-m trans-04 p-lr-25">
+							Maleesha - 0767950600
+						</a>
+
+					</div>
+				</li>
+			</ul>
+
+			<ul class="main-menu-m">
+				<li class="active-menu">
+					<a href="/">Home</a>
+				</li>
+
+				<li>
+					<a href="/diseases">Diseases-Treatments</a>
+				</li>
+
+			</ul>
+		</div>
+
+		<!-- Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="static/images/icons/icon-close2.png" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button type="submit" class="flex-c-m trans-04" id="btn_search">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" id="txt_search" name="txt_search" placeholder="Search Disease">
+				</form>
+			</div>
+		</div>
+
+	</header>
+
+	{% block content %}{% endblock %}
+
+
+	<!-- Footer -->
+	<footer class="bg3">
+		<div class="container">
+
+			<p class="stext-107 cl6 txt-center">
+				Copyright &copy; 2021 All rights reserved | <a href="tel:0767950600">Maleesha</a>
+			</p>
+
+		</div>
+	</footer>
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+
+
+	<!-- Js -->
+	<script src="static/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+	<script>
+
+		$(function () {
+			$('#btn_search').click(function () {
+
+				var search_value = $('#txt_search').val();
+
+				if (search_value == "" || search_value == null) {
+					$('.modal-search-header').removeClass('show-modal-search');
+					$('.js-show-modal-search').css('opacity', '1');
+					swal.fire("Search", "Search fields empty!", "warning");
+					return false;
+				} else {
+					window.location.href = '/diseases?search=' + search_value
+					return false;
+				}
+
+			});
+		});
+
+	</script>
+
+	<script src="static/vendor/animsition/js/animsition.min.js"></script>
+
+	<script src="static/vendor/slick/slick.min.js"></script>
+
+	<script src="static/js/slick-custom.js"></script>
+
+	<script src="static/js/main.js"></script>
+
+	<script src="static/vendor/bootstrap/js/popper.js"></script>
+
+	<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="static/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+
+	<script>
+		$('.gallery-lb').each(function () {
+			$(this).magnificPopup({
+				delegate: 'a',
+				type: 'image',
+				gallery: {
+					enabled: true
+				},
+				mainClass: 'mfp-fade'
+			});
+		});
+	</script>
+
+	<script src="static/vendor/isotope/isotope.pkgd.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+{
+    "ADDED_DATE": "2021-06-19",
+    "DISEASES": [
+        "Apple___Apple_scab",
+        "Apple___Black_rot",
+        "Apple___Cedar_apple_rust",
+        "Apple___healthy"
+    ],
+    "DISEASES_COUNT": 2,
+    "MODEL_ACCURACY": "0.98",
+    "MODEL_NAME": "trained_model.h5",
+    "PICKLE_NAME": "init_dict.pkl"
+}

@@ -1,0 +1,236 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 grid-margin">
+    <div class="d-flex justify-content-between flex-wrap">
+
+      <div class="d-flex">
+
+        <i class="mdi mdi-home text-muted hover-cursor"></i>
+        <p class="text-muted mb-0 hover-cursor">&nbsp;Dashboard</p>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body dashboard-tabs p-0">
+
+        <div class="tab-content py-0 px-0">
+          <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+            <div class="d-flex flex-wrap justify-content-xl-between">
+
+              <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                <i class="mdi mdi-calendar icon-lg mr-3 text-primary"></i>
+                <div class="d-flex flex-column justify-content-around">
+                  <small class="mb-1 text-muted">Date</small>
+                  <h5 class="mr-2 mb-0">
+                    {% if date %}
+                    {{ date }}
+                    {% else %}
+                    -
+                    {% endif %}
+                  </h5>
+                </div>
+              </div>
+
+              <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                <i class="mdi mdi-leaf mr-3 icon-lg text-success"></i>
+                <div class="d-flex flex-column justify-content-around">
+                  <small class="mb-1 text-muted">Total Predictions</small>
+                  <h5 class="mr-2 mb-0">
+                    {% if prediction_count %}
+                    {{ prediction_count }}
+                    {% else %}
+                    -
+                    {% endif %}</h5>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Predictions Count - Week</h4>
+        <canvas id="predictionWeekChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Prediction Accuracy - Week</h4>
+        <canvas id="predictionAccuracyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Plants - Disease Count</h4>
+        <canvas id="plantCountChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Plants - Disease %</h4>
+        <canvas id="plantDiseaseChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+<script>
+
+  $(function () {
+
+
+    $.ajax({
+      url: '/adminChartDetails',
+      data: {
+        chart: "chart",
+      },
+      type: 'POST',
+    })
+      .done(function (data) {
+        if (data.prediction) {
+
+          var prediction_data = {
+            labels: data.prediction[0],
+            datasets: [{
+              data: data.prediction[1],
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255,99,132,1)',
+              borderWidth: 1,
+              fill: true
+            }]
+          };
+        }
+
+        if (data.disease) {
+          var disease_data = {
+            labels: data.disease[0],
+            datasets: [{
+              data: data.disease[1],
+              backgroundColor: 'rgba(0,255,0, 0.2)',
+              borderColor: 'rgba(0,255,0,1)',
+              borderWidth: 2,
+              fill: false
+            }]
+          };
+        }
+
+        if (data.accuracy) {
+
+          var accuracy_data = {
+            labels: data.accuracy[0],
+            datasets: [{
+              data: data.accuracy[1],
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235,1)',
+              borderWidth: 1,
+              fill: true
+            }]
+          };
+        }
+
+        if (data.plantPercentage) {
+
+          var plantPercentage_data = {
+            labels: data.plantPercentage[0],
+            datasets: [{
+              data: data.plantPercentage[1],
+              backgroundColor: 'rgba(255,165,0, 0.2)',
+              borderColor: 'rgba(255,165,0,1)',
+              borderWidth: 1,
+              fill: true
+            }]
+          };
+        }
+
+
+        var options = {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          legend: {
+            display: false
+          },
+          elements: {
+            point: {
+              radius: 0
+            }
+          }
+
+        };
+
+        if ($("#predictionWeekChart").length) {
+          var predictionWeekChartCanvas = $("#predictionWeekChart").get(0).getContext("2d");
+          var predictionWeekChart = new Chart(predictionWeekChartCanvas, {
+            type: 'line',
+            data: prediction_data,
+            options: options
+          });
+        }
+
+        if ($("#plantCountChart").length) {
+          var plantCountChartCanvas = $("#plantCountChart").get(0).getContext("2d");
+          var plantCountChart = new Chart(plantCountChartCanvas, {
+            type: 'bar',
+            data: disease_data,
+            options: options
+          });
+        }
+
+        if ($("#predictionAccuracyChart").length) {
+          var predictionAccuracyChartCanvas = $("#predictionAccuracyChart").get(0).getContext("2d");
+          var predictionAccuracyChart = new Chart(predictionAccuracyChartCanvas, {
+            type: 'line',
+            data: accuracy_data,
+            options: options
+          });
+        }
+
+        if ($("#plantDiseaseChart").length) {
+          var plantDiseaseChartCanvas = $("#plantDiseaseChart").get(0).getContext("2d");
+          var plantDiseaseChart = new Chart(plantDiseaseChartCanvas, {
+            type: 'line',
+            data: plantPercentage_data,
+            options: options
+          });
+        }
+
+
+      });
+
+  });
+
+</script>
+
+
+{% endblock %}

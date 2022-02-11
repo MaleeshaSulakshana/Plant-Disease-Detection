@@ -1,0 +1,182 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Diseases & Treatments | Add Plants, Diseases & Treatments{%
+endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex">
+
+      <i class="mdi mdi-leaf text-muted hover-cursor"></i>
+      <p class="text-muted mb-0 hover-cursor">&nbsp;Diseases & Treatments &nbsp;/&nbsp; Add Plants, Diseases &
+        Treatments
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <form id="diseaseAddForm" class="forms-sample" enctype="multipart/form-data">
+
+          <div class="form-group">
+            <label for="txt_plant_name">Plant Name</label>
+            <input type="text" class="form-control" id="txt_plant_name" placeholder="Enter Plant Name">
+          </div>
+
+          <div class="form-group">
+            <label for="txt_disease_name">Disease Name</label>
+            <input type="text" class="form-control" id="txt_disease_name" placeholder="Enter Disease Name">
+          </div>
+
+          <div class="form-group">
+            <label for="txt_disease_detail">Disease Details</label>
+            <textarea class="form-control" id="txt_disease_detail" rows="4"
+              placeholder="Enter Disease Details"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="txt_treatment_detail">Treatment Details</label>
+            <textarea class="form-control" id="txt_treatment_detail" rows="4"
+              placeholder="Enter Treatment Details"></textarea>
+          </div>
+
+
+          <div class="form-group">
+            <label>Thumbnail Image</label>
+            <input type="file" name="img[]" class="file-upload-default" id="thumbnail" accept="image/*">
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Thumbnail Image"
+                required>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Disease Image - 1</label>
+            <input type="file" name="img[]" class="file-upload-default" id="image1" accept="image/*">
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Disease Image - 1"
+                required>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Disease Image - 2</label>
+            <input type="file" name="img[]" class="file-upload-default" id="image2" accept="image/*">
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Disease Image - 2"
+                required>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Disease Image - 3</label>
+            <input type="file" name="img[]" class="file-upload-default" id="image3" accept="image/*">
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Disease Image - 3"
+                required>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Disease Image - 4</label>
+            <input type="file" name="img[]" class="file-upload-default" id="image4" accept="image/*">
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Disease Image - 4"
+                required>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+
+
+          <button type="submit" id="btnAdd" class="btn btn-primary mr-2">Add</button>
+          <a href="{{ url_for('appAdmin.admin') }}" class="btn btn-light">Cancel</a>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script src="static/Admin/jquery/jquery-3.2.1.min.js"></script>
+
+<script>
+
+  $(function () {
+    $('#btnAdd').click(function () {
+
+      if ($('#txt_plant_name').val() == "" || $('#txt_disease_name').val() == "" ||
+        $('#txt_disease_detail').val() == "" || $('#txt_treatment_detail').val() == "" ||
+        $('#thumbnail').val() == "") {
+        Swal.fire("Add Plants, Diseases & Treatments", "Fields are empty!", "warning");
+        return false;
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('txt_plant_name', $('#txt_plant_name').val());
+        form_data.append('txt_disease_name', $('#txt_disease_name').val());
+        form_data.append('txt_disease_detail', $('#txt_disease_detail').val());
+        form_data.append('txt_treatment_detail', $('#txt_treatment_detail').val());
+        form_data.append('thumbnail', $('#thumbnail').prop('files')[0]);
+        form_data.append('image1', $('#image1').prop('files')[0]);
+        form_data.append('image2', $('#image2').prop('files')[0]);
+        form_data.append('image3', $('#image3').prop('files')[0]);
+        form_data.append('image4', $('#image4').prop('files')[0]);
+
+        $.ajax({
+          url: "{{ url_for('appAdminDiseases.add_new_disease') }}",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.error) {
+              Swal.fire("Add Plants, Diseases & Treatments", data.error, "warning");
+            }
+            else if (data.success) {
+              $("#diseaseAddForm")[0].reset();
+              Swal.fire("Add Plants, Diseases & Treatments", data.success, "success");
+            }
+            else {
+              Swal.fire("Add Plants, Diseases & Treatments", "Some error occur", "warning");
+            }
+          });
+
+        event.preventDefault();
+
+      }
+    });
+  });
+
+</script>
+
+
+{% endblock %}

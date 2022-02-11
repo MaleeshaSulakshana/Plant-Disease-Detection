@@ -1,0 +1,1 @@
+Please add there trained model pickle file (init_dict.pkl)

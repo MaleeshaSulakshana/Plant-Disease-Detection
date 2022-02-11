@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Plant Disease Detection | Diseases{% endblock %}
+{% block content %}
+
+<!-- Plant diseases -->
+<div class="bg0 m-t-38 p-b-140">
+	<div class="container">
+
+		{% if search_value %}
+		<h3 class="flex-w flex-sb-m p-b-52">
+			Searched :- {{ search_value }}
+		</h3>
+		{% endif %}
+
+		{% if search_value %}
+		{% if search %}
+		<div class="row isotope-grid">
+
+			{% for item in search %}
+
+			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{ item[1].replace(' ', '-') }} disease-block">
+				<div class="block2">
+					<div class="block2-pic hov-img0">
+						<img src="static/images/diseases/{{ item[3] }}">
+
+						<a href="{{ url_for('disease_details', id = item[0]) }}"
+							class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+							Details
+						</a>
+
+					</div>
+
+					<div class="block2-txt flex-w flex-t p-t-14">
+						<div class="block2-txt-child1 flex-col-l ">
+							<a href="{{ url_for('disease_details', id = item[0]) }}"
+								class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<span class="disease-name">{{ item[1].upper() }} - {{ item[2].upper() }}</span>
+							</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			{% endfor %}
+
+		</div>
+		{% else %}
+
+		<div class="container">
+			<div class="item-slick1" style="background-image: url(static/images/no_result.gif);"></div>
+		</div>
+
+		{% endif %}
+		{% endif %}
+
+		{% if plants %}
+
+		<div class="flex-w flex-sb-m p-b-52">
+
+			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+
+				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+					All PLANTS
+				</button>
+				{% for plant in plants %}
+
+				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
+					data-filter=".{{ plant[0].replace(' ', '-') }}">
+					{{ plant[0].upper() }}
+				</button>
+
+				{% endfor %}
+			</div>
+
+		</div>
+		{% endif %}
+
+
+
+		{% if diseases %}
+		<div class="row isotope-grid">
+
+			{% for disease in diseases %}
+
+			<div
+				class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{ disease[1].replace(' ', '-') }} disease-block">
+				<div class="block2">
+					<div class="block2-pic hov-img0">
+						<img src="static/images/diseases/{{ disease[3] }}">
+
+						<a href="{{ url_for('disease_details', id = disease[0]) }}"
+							class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+							Details
+						</a>
+
+					</div>
+
+					<div class="block2-txt flex-w flex-t p-t-14">
+						<div class="block2-txt-child1 flex-col-l ">
+							<a href="{{ url_for('disease_details', id = disease[0]) }}"
+								class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<span class="disease-name">{{ disease[1].upper() }} - {{ disease[2].upper() }}</span>
+							</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			{% endfor %}
+
+		</div>
+		{% endif %}
+
+	</div>
+</div>
+
+{% endblock %}

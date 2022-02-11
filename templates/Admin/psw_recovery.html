@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Plant Disease Detection | Admin-Login</title>
+
+  <link rel="stylesheet" href="static/Admin/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="static/Admin/vendors/base/vendor.bundle.base.css">
+  <link rel="stylesheet" href="static/Admin/css/style.css">
+  <link rel="shortcut icon" href="static/Admin/images/logo.png" />
+
+  <script src="static/Admin/js/sweetalert2@11.js"></script>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+
+              <h4>Administration Password Recovery</h4>
+              <h6 class="font-weight-light">Enter your new password</h6>
+              <form class="pt-3">
+                <div class="form-group">
+                  <input id="txtPsw" type="password" class="form-control form-control-lg" placeholder="Password"
+                    required>
+                </div>
+                <div class="form-group">
+                  <input id="txtCPsw" type="password" class="form-control form-control-lg"
+                    placeholder="Confirm-Password" required>
+                </div>
+                <div class="mt-3">
+                  <button type="submit" id="btnPswRecovery"
+                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">CHANGE RECOVERY
+                    PASSWORD</button>
+                </div>
+                <div class="my-2 d-flex justify-content-between align-items-center">
+                  <a href="{{ url_for('appAdmin.login') }}" class="auth-link text-black">Login?</a>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="static/Admin/jquery/jquery-3.2.1.min.js"></script>
+
+  <script>
+
+    $(function () {
+      $('#btnPswRecovery').click(function () {
+
+        var txtPsw = $('#txtPsw').val();
+        var txtCPsw = $('#txtCPsw').val();
+
+        if (txtPsw == "" || txtCPsw == "") {
+          swal.fire("Password Recovery", "Fields are empty!", "warning");
+
+        } else if (txtPsw != txtCPsw) {
+          swal.fire("Password Recovery", "Password & confirm password not matched!", "warning");
+
+        } else {
+
+          var form_data = new FormData();
+          form_data.append('txtPsw', $('#txtPsw').val());
+          form_data.append('txtCPsw', $('#txtCPsw').val());
+
+          $.ajax({
+            url: "{{ url_for('appAdminRecoveryPsw.change_recovery_psw') }}",
+            enctype: 'multipart/form-data',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            type: 'POST',
+          })
+            .done(function (data) {
+              if (data.redirect) {
+                window.location.href = data.redirect;
+              } else if (data.error) {
+                Swal.fire("Password Recovery", data.error, "warning");
+              }
+              else {
+                Swal.fire("Password Recovery", "Some error occur!", "warning");
+              }
+            });
+
+        }
+
+        event.preventDefault();
+      });
+    });
+
+  </script>
+
+  <script src="static/Admin/vendors/base/vendor.bundle.base.js"></script>
+  <script src="static/Admin/js/off-canvas.js"></script>
+  <script src="static/Admin/js/hoverable-collapse.js"></script>
+  <script src="static/Admin/js/template.js"></script>
+
+</body>
+
+</html>

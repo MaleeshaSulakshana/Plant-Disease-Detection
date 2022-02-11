@@ -1,0 +1,126 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Admin Profile{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex justify-content-between flex-wrap">
+
+      <div class="d-flex">
+
+        <i class="mdi mdi-account text-muted hover-cursor"></i>
+        <p class="text-muted mb-0 hover-cursor">&nbsp;Profile</p>
+
+      </div>
+
+      <div class="d-flex justify-content-between align-items-end flex-wrap ">
+        <a href="/admin_change_psw" class="btn btn-primary mt-2 mt-xl-0">Change Password</a>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+
+    {% if details %}
+    <div class="card">
+      <div class="card-body">
+
+        <form id="adminUpdateForm" class="forms-sample" enctype="multipart/form-data">
+
+          <div class="form-group">
+            <label for="txt_name">Name</label>
+            <input type="text" class="form-control" id="txt_name" value="{{ details[0][1] }}">
+          </div>
+
+          <div class="form-group">
+            <label for="txt_email">Email</label>
+            <input type="text" class="form-control" id="txt_email" value="{{ details[0][2] }}" disabled>
+          </div>
+
+          <button type="submit" id="btnUpdate" class="btn btn-primary mr-2">Update</button>
+          <a href="{{ url_for('appAdmin.admin') }}" class="btn btn-light">Cancel</a>
+
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+
+
+<script src="static/Admin/jquery/jquery-3.2.1.min.js"></script>
+
+<script>
+
+  $(function () {
+    $('#btnUpdate').click(function () {
+
+      var txt_name = $('#txt_name').val()
+
+      if (txt_name == "" || txt_name == null) {
+        Swal.fire("Admin Profile Update", "Fields are empty!", "warning");
+        return false;
+
+      } else {
+
+        Swal.fire({
+          title: "Are you sure?",
+          text: "Are you sure update your profile details!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sure'
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+
+              var form_data = new FormData();
+              form_data.append('name', $('#txt_name').val());
+
+              $.ajax({
+                url: "{{ url_for('appAdminProfile.update_admin_profile') }}",
+                enctype: 'multipart/form-data',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                type: 'POST',
+              })
+                .done(function (data) {
+                  if (data.error) {
+                    Swal.fire("Admin Profile Update", data.error, "warning");
+                  }
+                  else if (data.success) {
+                    Swal.fire("Admin Profile Update", data.success, "success");
+                  }
+                  else {
+                    Swal.fire("Admin Profile Update", "Some error occur", "warning");
+                  }
+                });
+
+              event.preventDefault();
+
+            }
+          });
+
+      }
+
+
+      return false;
+    });
+  });
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Diseases & Treatments | View Plants, Diseases &
+Treatments{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex">
+
+      <i class="mdi mdi-leaf text-muted hover-cursor"></i>
+      <p class="text-muted mb-0 hover-cursor">&nbsp;Diseases & Treatments &nbsp;/&nbsp; View Plants, Diseases
+        & Treatments</p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12 stretch-card">
+    <div class="card">
+
+      {% if details %}
+
+      <div class="card-body">
+
+        <div class="input-group">
+          <input id="txt_search" name="txt_search" type="text" class="form-control" placeholder="Search Disease"
+            aria-label="search" aria-describedby="search">
+        </div>
+
+        <div class="table-responsive">
+          <table id="recent-purchases-listing" class="table">
+            <thead>
+              <tr>
+                <th>Disease</th>
+                <th>Plant</th>
+                <th>Images</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for item in details %}
+              <tr>
+                <td><a href="{{ url_for('appAdminDiseases.update_disease_details', id = item[0]) }}">{{ item[2] }}</a>
+                </td>
+                <td>{{ item[1] }}</td>
+                <td>
+
+                  {% for image in item[3:] %}
+                  {% if image != 'None' %}
+                  <a
+                    href="{{ url_for('appAdminDiseases.update_disease_image',disease_id=item[0],image_id=loop.index0) }}">
+                    <img src="static/images/diseases/{{ image }}" alt="">
+                  </a>
+                  {% else %}
+                  <a
+                    href="{{ url_for('appAdminDiseases.update_disease_image',disease_id=item[0],image_id=loop.index0) }}">
+                    <img src="static/images/icons/plus.png" alt=""></a>
+                  {% endif %}
+                  {% endfor %}
+
+                </td>
+                <td><a href="{{ url_for('appAdminDiseases.delete_desease', id = item[0]) }}">Remove</a></td>
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<script src="static/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+<script>
+
+  var $rows = $('#recent-purchases-listing tr');
+  $('#txt_search').keyup(function () {
+    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+    $rows.show().filter(function () {
+      var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+      return !~text.indexOf(val);
+    }).hide();
+  });
+
+</script>
+{% endblock %}

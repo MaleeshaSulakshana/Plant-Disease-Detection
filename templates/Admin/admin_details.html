@@ -1,0 +1,60 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Administers | Administers View{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex">
+
+      <i class="mdi mdi-account text-muted hover-cursor"></i>
+      <p class="text-muted mb-0 hover-cursor">&nbsp;Administers &nbsp;/&nbsp; Administers View</p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+
+      {% if details %}
+      <div class="card-body">
+
+
+        <div class="table-responsive">
+
+          <table id="recent-purchases-listing" class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for item in details %}
+              <tr>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td><a href="{{ url_for('appAdminAdministration.delete_admin', id=item[0]) }}">Remove</a></td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

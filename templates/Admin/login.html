@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Plant Disease Detection | Admin-Login</title>
+
+  <link rel="stylesheet" href="static/Admin/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="static/Admin/vendors/base/vendor.bundle.base.css">
+  <link rel="stylesheet" href="static/Admin/css/style.css">
+  <link rel="shortcut icon" href="static/Admin/images/logo.png" />
+
+  <script src="static/Admin/js/sweetalert2@11.js"></script>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+
+              <h4>Administration Login</h4>
+              <h6 class="font-weight-light">Sign in to continue.</h6>
+              <form class="pt-3">
+                <div class="form-group">
+                  <input id="txtEmail" type="email" class="form-control form-control-lg" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                  <input id="txtPsw" type="password" class="form-control form-control-lg" placeholder="Password"
+                    required>
+                </div>
+                <div class="mt-3">
+                  <button type="submit" id="btnAdminSignIn"
+                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                </div>
+                <div class="my-2 d-flex justify-content-between align-items-center">
+                  <a href="{{ url_for('appAdminRecoveryPsw.forget_password') }}" class="auth-link text-black">Forgot
+                    password?</a>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="static/Admin/jquery/jquery-3.2.1.min.js"></script>
+
+  <script>
+
+    $(function () {
+      $('#btnAdminSignIn').click(function () {
+
+        var email = $('#txtEmail').val();
+        var psw = $('#txtPsw').val();
+
+        if (email == "" || psw == "") {
+          swal.fire("Admin-Login", "Fields are empty!", "warning");
+
+        } else {
+
+          var form_data = new FormData();
+          form_data.append('txtEmail', email);
+          form_data.append('txtPsw', psw);
+
+          $.ajax({
+            url: "{{ url_for('appAdmin.admin_login') }}",
+            enctype: 'multipart/form-data',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            type: 'POST',
+          })
+            .done(function (data) {
+              if (data.redirect) {
+                window.location.href = data.redirect;
+              }
+              else if (data.error) {
+                Swal.fire("Admin-Login", data.error, "warning");
+              }
+              else {
+                Swal.fire("Admin-Login", "Some error occur!", "warning");
+              }
+            });
+
+        }
+
+        event.preventDefault();
+      });
+    });
+
+  </script>
+
+  <script src="static/Admin/vendors/base/vendor.bundle.base.js"></script>
+  <script src="static/Admin/js/off-canvas.js"></script>
+  <script src="static/Admin/js/hoverable-collapse.js"></script>
+  <script src="static/Admin/js/template.js"></script>
+
+</body>
+
+</html>

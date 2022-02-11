@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Trained models
+.h5
+/python/model/*.h5
+/python/model/*.h5
+/python/pickle/*.pkl
+/python/pickle/*.pkl

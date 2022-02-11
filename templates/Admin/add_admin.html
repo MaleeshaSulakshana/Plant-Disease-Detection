@@ -1,0 +1,119 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Administers | Add Administers{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex">
+
+      <i class="mdi mdi-account text-muted hover-cursor"></i>
+      <p class="text-muted mb-0 hover-cursor">&nbsp;Administers &nbsp;/&nbsp; Add Administers
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <form id="adminAddForm" class="forms-sample" enctype="multipart/form-data">
+
+          <div class="form-group">
+            <label for="txt_name">Name</label>
+            <input type="text" class="form-control" id="txt_name" placeholder="Enter Name">
+          </div>
+
+          <div class="form-group">
+            <label for="txt_email">Email</label>
+            <input type="email" class="form-control" id="txt_email" placeholder="Enter Email">
+          </div>
+
+          <div class="form-group">
+            <label for="txt_psw">Password</label>
+            <input type="password" class="form-control" id="txt_psw" placeholder="Enter Password">
+          </div>
+
+          <div class="form-group">
+            <label for="txt_cpsw">Confirm Password</label>
+            <input type="password" class="form-control" id="txt_cpsw" placeholder="Enter Confirm Password">
+          </div>
+
+          <button type="submit" id="btnAdd" class="btn btn-primary mr-2">Add</button>
+          <a href="{{ url_for('appAdmin.admin') }}" class="btn btn-light">Cancel</a>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script src="static/Admin/jquery/jquery-3.2.1.min.js"></script>
+
+<script>
+
+  $(function () {
+    $('#btnAdd').click(function () {
+
+      var txt_name = $('#txt_name').val()
+      var txt_email = $('#txt_email').val()
+      var txt_psw = $('#txt_psw').val()
+      var txt_cpsw = $('#txt_cpsw').val()
+
+      if (txt_name == "" || txt_name == null, txt_email == "" || txt_email == null,
+        txt_psw == "" || txt_psw == null, txt_cpsw == "" || txt_cpsw == null) {
+        Swal.fire("Add new admin", "Fields are empty!", "warning");
+        return false;
+
+      } else if ($('#txt_psw').val() != $('#txt_cpsw').val()) {
+        Swal.fire("Add new admin", "Password and confirm password not matched!", "warning");
+        return false;
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('name', $('#txt_name').val());
+        form_data.append('email', $('#txt_email').val());
+        form_data.append('psw', $('#txt_psw').val());
+        form_data.append('cpsw', $('#txt_cpsw').val());
+
+        $.ajax({
+          url: "{{ url_for('appAdminAdministration.add_admin_recode') }}",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.error) {
+              Swal.fire("Add new admin", data.error, "warning");
+            }
+            else if (data.success) {
+              $("#adminAddForm")[0].reset();
+              Swal.fire("Add new admin", data.success, "success");
+            }
+            else {
+              Swal.fire("Add new admin", "Some error occur", "warning");
+            }
+          });
+
+        event.preventDefault();
+
+      }
+    });
+  });
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,163 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Diseases & Treatments | Update Diseases Images
+Details{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex">
+
+      <i class="mdi mdi-leaf text-muted hover-cursor"></i>
+      <p class="text-muted mb-0 hover-cursor">&nbsp;Diseases & Treatments &nbsp;/&nbsp; Update Disease Images</p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+
+      <div class="card-body">
+
+        <form class="forms-sample">
+
+          {% if disease_id %}
+          <div class="form-group">
+            <label for="txt_disease_id">Disease Id</label>
+            <input type="text" class="form-control" id="txt_disease_id" value="{{ disease_id }}" disabled>
+          </div>
+          {% endif %}
+
+          {% if image_id %}
+          <div class="form-group">
+            <label for="txt_image_id">Image Id</label>
+            <input type="text" class="form-control" id="txt_image_id" value="{{ image_id }}" disabled>
+          </div>
+          {% endif %}
+
+          <div class="form-group">
+            <label>Upload Disease Image</label>
+            <input type="file" name="img[]" class="file-upload-default" id="input_image" accept="image/*" required>
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Disease Image">
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload Disease Image</button>
+              </span>
+            </div>
+          </div>
+
+
+          <button type="submit" id="btnUpdate" class="btn btn-primary mr-2">
+            {% if image_name != 'None' %}
+            Update
+            {% else %}
+            Add
+            {% endif %}
+
+          </button>
+          {% if image_name != 'None' %}
+          {% if image_id %}
+          {% if image_id != 'thumbnail' %}
+          <button type="submit" id="btnDelete" class="btn btn-primary mr-2">Delete</button>
+          {% endif %}
+          {% endif %}
+          {% endif %}
+          <a href="{{ url_for('appAdminDiseases.view_diseases') }}" class="btn btn-light">Cancel</a>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="static/Admin/jquery/jquery-3.2.1.min.js"></script>
+
+<script>
+
+  $(function () {
+    $('#btnUpdate').click(function () {
+
+      if ($('#input_image').val() == "") {
+        Swal.fire("Update Disease Images", "Image Not Uploaded!", "warning");
+        return false;
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('txt_disease_id', $('#txt_disease_id').val());
+        form_data.append('txt_image_id', $('#txt_image_id').val());
+        form_data.append('input_image', $('#input_image').prop('files')[0]);
+
+        $.ajax({
+          url: "{{ url_for('appAdminDiseases.update_image') }}",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.error) {
+              Swal.fire("Update Disease Images", data.error, "warning");
+            }
+            else if (data.success) {
+              Swal.fire("Update Disease Images", data.success, "success");
+            }
+            else {
+              Swal.fire("Update Disease Images", "Some error occur", "warning");
+            }
+          });
+
+        event.preventDefault();
+        return false;
+
+      }
+    });
+  });
+
+
+  $(function () {
+    $('#btnDelete').click(function () {
+
+      var form_data = new FormData();
+      form_data.append('txt_disease_id', $('#txt_disease_id').val());
+      form_data.append('txt_image_id', $('#txt_image_id').val());
+
+      $.ajax({
+        url: "/delete_image",
+        enctype: 'multipart/form-data',
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        type: 'POST',
+      })
+        .done(function (data) {
+          if (data.error) {
+            Swal.fire("Update Disease Images", data.error, "warning");
+          }
+          else if (data.success) {
+            Swal.fire("Update Disease Images", data.success, "success");
+          }
+          else {
+            Swal.fire("Update Disease Images", "Some error occur", "warning");
+          }
+        });
+
+      event.preventDefault();
+      return false;
+
+    });
+  });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'Admin/layout.html' %}
+{% block title %}Plant Disease Detection | Admin Dashboard | Model | Details View{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12 grid-margin">
+
+    <div class="d-flex">
+
+      <i class="mdi mdi-globe-model text-muted hover-cursor"></i>
+      <p class="text-muted mb-0 hover-cursor">&nbsp;Model &nbsp;/&nbsp; Details View</p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="row">
+
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+
+      {% if details %}
+      <div class="card-body">
+
+        <form class="forms-sample">
+
+          <div class="form-group">
+            <label for="exampleInputName1">Model Name</label>
+            <input type="text" class="form-control" id="exampleInputName1" value="{{ details['MODEL_NAME'] }}" disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputName1">No of Classes</label>
+            <input type="text" class="form-control" id="exampleInputName1" value="{{ details['DISEASES_COUNT'] }}"
+              disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputName1">Model Training Accuracy</label>
+            <input type="text" class="form-control" id="exampleInputName1" value="{{ details['MODEL_ACCURACY'] }}"
+              disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputName1">Model Added Date</label>
+            <input type="text" class="form-control" id="exampleInputName1" value="{{ details['ADDED_DATE'] }}" disabled>
+          </div>
+
+          {% if details['DISEASES'] %}
+          <div class="form-group">
+            <label for="exampleInputName1">Trained Classes</label>
+
+            <div class="table-responsive">
+              <table id="" class="table">
+
+                <tbody>
+
+                  {% for item in details['DISEASES'] %}
+                  <tr>
+                    <td>{{ item.replace("___", " - ").replace("_", " ") }}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% endif %}
+
+        </form>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
